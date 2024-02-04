@@ -45,12 +45,12 @@ if (strpos($message, "/bin") === 0) {
         $level = strtoupper($data['level']);
         $type = strtoupper($data['type']);
 
-        $output_message = "🍪Bin: `$bin`
-💳Brand:[$brand
+        $output_message = "🍪Bin: $bin
+💳Brand: $brand
 💰Type: $type
-🏆Level:[$level
+🏆Level: $level
 🏦Bank: $bank
-🌐Country:[$country";
+🌐Country: $country";
 
         send_message($chat_id, $message_id, $output_message);
     } else {
