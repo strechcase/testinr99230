@@ -46,8 +46,8 @@ if (strpos($message, "/bin") === 0) {
         $type = strtoupper($data['type']);
 
         $output_message = "🍪Bin: $bin
-💳Brand: $brand
-💰Type: $type
+***💳Brand***: $brand
+```💰Type```: $type
 🏆Level: $level
 🏦Bank: $bank
 🌐Country: $country";
