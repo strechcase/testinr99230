@@ -49,9 +49,7 @@ if (strpos($message, "/bin") === 0) {
 💰Type: $type
 🏆Level: $level
 🏦Bank: $bank
-🌐Country: $country
-
-👤Checked by: @$username [ Free User ]";
+🌐Country: $country ";
 
         send_message($chat_id, $message_id, $output_message);
     } else {
