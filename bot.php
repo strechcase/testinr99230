@@ -1,5 +1,6 @@
 <?php
-date_default_timezone_set("Asia/kolkata");
+date_default_timezone_set("Asia/Kolkata");
+
 // Data From Webhook
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
@@ -32,7 +33,7 @@ if (strpos($message, "/bin") === 0) {
 
     $result = curl_exec($curl);
     $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    
+
     curl_close($curl);
 
     $data = json_decode($result, true);
@@ -44,12 +45,14 @@ if (strpos($message, "/bin") === 0) {
         $level = strtoupper($data['level']);
         $type = strtoupper($data['type']);
 
-        $output_message = "🍪Bin: $bin
-💳Brand: $brand
-💰Type: $type
-🏆Level: $level
-🏦Bank: $bank
-🌐Country: $country ";
+        $output_message = "🍪Bin: [$bin](URL)
+💳Brand: [$brand](URL)
+💰Type: [$type](URL)
+🏆Level: [$level](URL)
+🏦Bank: [$bank](URL)
+🌐Country: [$country](URL)
+
+👤Checked by: @$username [ Free User ]";
 
         send_message($chat_id, $message_id, $output_message);
     } else {
@@ -61,6 +64,8 @@ function send_message($chat_id, $message_id, $message)
 {
     $text = urlencode($message);
     $apiToken = $_ENV['API_TOKEN'];
+
+    // Agrega el formato Markdown
     file_get_contents("https://api.telegram.org/bot$apiToken/sendMessage?chat_id=$chat_id&reply_to_message_id=$message_id&text=$text&parse_mode=Markdown");
 }
 ?>
