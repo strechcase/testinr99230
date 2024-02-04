@@ -10,10 +10,10 @@ $id = $update["message"]["from"]["id"];
 $username = $update["message"]["from"]["username"];
 $firstname = $update["message"]["from"]["first_name"];
 $start_msg = $_ENV['START_MSG'];
-$API_CC_PR = getenv('API_CC_PR'); // Obtener la clave de API de la variable de entorno
+$API_CC_PR = getenv('API_KEY'); // Obtener la clave de API de la variable de entorno
 
 if ($message == "/start") {
-    send_message($chat_id, $message_id, "***Hey $firstname \nUse !bin xxxxxx to Check BIN \n$start_msg***");
+    send_message($chat_id, $message_id, "***Hola $firstname ! \nUsa /bin xxxxx para checar tu BIN \nBot creado por @soportecookies\n\n Visita nuestra shop @cookiesautoshopBot***");
 }
 
 // Bin Lookup
@@ -41,13 +41,13 @@ if (strpos($message, "/bin") === 0) {
         $type = strtoupper($data['type']);
 
         $output_message = "🍪Bin: $bin
-        💳Brand: $brand
-        💰Type: $type
-        🏆Level: $level
-        🏦Bank: $bank
-        🌐Country: $country
+💳Brand: $brand
+💰Type: $type
+🏆Level: $level
+🏦Bank: $bank
+🌐Country: $country
 
-        👤Checked by: @$username [ Free User ]";
+👤Checked by: @$username [ Free User ]";
 
         send_message($chat_id, $message_id, $output_message);
     } else {
