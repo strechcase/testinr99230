@@ -52,7 +52,9 @@ if (strpos($message, "/bin") === 0) {
 ***🏦Bank:*** $bank
 ***🌐Country:*** $country
 
-``` $bin|$brand|$type|$level|$bank|$country ``` ";
+``` $bin|$brand|$type|$level|$bank|$country ``` 
+
+👤Info checked by: $username ";
 
         send_message($chat_id, $message_id, $output_message);
     } else {
