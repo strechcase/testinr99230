@@ -10,6 +10,7 @@ $id = $update["message"]["from"]["id"];
 $username = $update["message"]["from"]["username"];
 $firstname = $update["message"]["from"]["first_name"];
 $start_msg = $_ENV['START_MSG'];
+$API_CC_PR = getenv('API_CC_PR'); // Obtener la clave de API de la variable de entorno
 
 if ($message == "/start") {
     send_message($chat_id, $message_id, "***Hey $firstname \nUse !bin xxxxxx to Check BIN \n$start_msg***");
@@ -18,8 +19,7 @@ if ($message == "/start") {
 // Bin Lookup
 if (strpos($message, "/bin") === 0) {
     $bin = substr($message, 5);
-    $api_key = "4964390fd2240937725f366f17fdbf7f5a08f8b5";
-    $api_url = "https://api.chk.cards/v1/bins?key=$api_key&bin=$bin";
+    $api_url = "https://api.chk.cards/v1/bins?key=$API_CC_PR&bin=$bin";
 
     $curl = curl_init($api_url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -40,14 +40,16 @@ if (strpos($message, "/bin") === 0) {
         $level = strtoupper($data['level']);
         $type = strtoupper($data['type']);
 
-        send_message($chat_id, $message_id, "***✅ Valid BIN
-        Bin: $bin
-        Brand: $brand
-        Level: $level
-        Bank: $bank
-        Country: $country
-        Type: $type
-        Checked By @$username ***");
+        $output_message = "🍪Bin: $bin
+        💳Brand: $brand
+        💰Type: $type
+        🏆Level: $level
+        🏦Bank: $bank
+        🌐Country: $country
+
+        👤Checked by: @$username [ Free User ]";
+
+        send_message($chat_id, $message_id, $output_message);
     } else {
         send_message($chat_id, $message_id, "***Enter Valid BIN***");
     }
