@@ -21,44 +21,33 @@ if (strpos($message, "/bin") === 0) {
     $api_key = "4964390fd2240937725f366f17fdbf7f5a08f8b5";
     $api_url = "https://api.chk.cards/v1/bins?key=$api_key&bin=$bin";
 
-    $curl = curl_init();
-    curl_setopt_array($curl, [
-        CURLOPT_URL => $api_url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => [
-            "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-            "accept-language: en-GB,en-US;q=0.9,en;q=0.8,hi;q=0.7",
-            "sec-fetch-dest: document",
-            "sec-fetch-site: none",
-            "user-agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
-        ],
-    ]);
+    $curl = curl_init($api_url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
     $result = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    
     curl_close($curl);
-    $data = json_decode($result, true);
-    $bank = $data['bank'];
-    $country = $data['country'];
-    $brand = $data['brand'];
-    $level = $data['level'];
-    $type = $data['type'];
-    $result1 = $data['result'];
 
-    if ($result1 == true) {
+    $data = json_decode($result, true);
+
+    if ($httpCode == 200) {
+        $bank = $data['issuer'];
+        $country = strtoupper($data['country']);
+        $brand = strtoupper($data['brand']);
+        $level = strtoupper($data['level']);
+        $type = strtoupper($data['type']);
+
         send_message($chat_id, $message_id, "***✅ Valid BIN
-Bin: $bin
-Brand: $brand
-Level: $level
-Bank: $bank
-Country: $country $flag
-Type:$type
-Checked By @$username ***");
+        Bin: $bin
+        Brand: $brand
+        Level: $level
+        Bank: $bank
+        Country: $country
+        Type: $type
+        Checked By @$username ***");
     } else {
         send_message($chat_id, $message_id, "***Enter Valid BIN***");
     }
